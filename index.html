@@ -3,144 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字母泡泡键盘小游戏</title>
+    <title>字母泡泡键盘游戏</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 游戏背景 -->
-    <div class="game-background"></div>
-
-    <!-- 游戏容器 -->
     <div class="game-container">
-        <!-- 游戏画布 -->
-        <canvas id="gameCanvas"></canvas>
-
-        <!-- 游戏信息面板 -->
-        <div class="game-info">
-            <div class="score-display">
-                <span class="info-label">分数：</span>
-                <span id="currentScore" class="info-value">0</span>
-            </div>
-            <div class="time-display">
-                <span class="info-label">时间：</span>
-                <span id="timeRemaining" class="info-value">120</span>
-            </div>
-            <div class="bubbles-display">
-                <span class="info-label">泡泡：</span>
-                <span id="bubblesCount" class="info-value">0</span>
+        <!-- 游戏开始界面 -->
+        <div id="start-screen" class="screen">
+            <h1>字母泡泡键盘游戏</h1>
+            <div class="buttons-container">
+                <button id="start-btn" class="btn">开始游戏</button>
+                <button id="help-btn" class="btn">游戏帮助</button>
             </div>
         </div>
-
-        <!-- 游戏控制按钮 -->
-        <div class="game-controls">
-            <button id="pauseBtn" class="control-btn pause-btn" title="暂停游戏">
-                <i class="control-icon">⏸️</i>
-            </button>
-            <button id="homeBtn" class="control-btn home-btn" title="返回主界面">
-                <i class="control-icon">🏠</i>
-            </button>
-            <button id="soundToggle" class="control-btn sound-toggle" title="音效开关">
-                <i class="control-icon sound-icon">🔊</i>
-            </button>
-        </div>
-    </div>
-
-    <!-- 游戏开始界面 -->
-    <div id="startScreen" class="screen start-screen">
-        <div class="screen-content">
-            <h1 class="game-title">字母泡泡键盘游戏</h1>
-            <div class="game-rules">
+        
+        <!-- 帮助界面 -->
+        <div id="help-screen" class="screen hidden">
+            <h2>游戏帮助</h2>
+            <div class="help-content">
                 <h3>游戏规则</h3>
+                <p>1. 按下键盘上对应的字母键击破屏幕中的泡泡</p>
+                <p>2. 不同颜色的泡泡有不同的分值和停留时间：</p>
                 <ul>
-                    <li>按下对应字母键击破泡泡获得分数</li>
-                    <li>不同颜色的泡泡有不同分值和持续时间</li>
-                    <li>泡泡超时消失会扣除相应分数</li>
-                    <li>按错键或点击空白处扣5分</li>
-                    <li>单局游戏时间为2分钟</li>
+                    <li><span class="color-dot blue"></span> 蓝色泡泡：10分，停留1.5秒</li>
+                    <li><span class="color-dot cyan"></span> 青色泡泡：20分，停留1.2秒</li>
+                    <li><span class="color-dot green"></span> 绿色泡泡：30分，停留1.0秒</li>
+                    <li><span class="color-dot orange"></span> 橙色泡泡：40分，停留0.5秒</li>
+                    <li><span class="color-dot purple"></span> 紫色泡泡：50分，停留0.3秒（带微光特效）</li>
+                    <li><span class="color-dot red"></span> 红色泡泡：60分，停留0.2秒（带闪烁特效）</li>
                 </ul>
+                <p>3. 按错字母、点击空白处或泡泡超时消失都扣5分</p>
+                <p>3. 按错字母或点击空白处扣5分</p>
+                <p>4. 游戏时间为2分钟，挑战你的极限！</p>
+                <p>5. 泡泡生成速度会随着游戏进行逐渐加快</p>
+                <h3>操作说明</h3>
+                <p>- 键盘：按下对应字母键击破泡泡</p>
+                <p>- 鼠标/触摸：点击泡泡击破（移动设备适用）</p>
+                <p>- ESC键：暂停游戏</p>
             </div>
-            <div class="bubble-scores">
-                <h4>泡泡分值说明：</h4>
-                <div class="score-item">
-                    <span class="bubble-color color-10"></span>
-                    <span>浅天蓝色：10分 (1.5秒)</span>
-                </div>
-                <div class="score-item">
-                    <span class="bubble-color color-30"></span>
-                    <span>淡青色：30分 (1.2秒)</span>
-                </div>
-                <div class="score-item">
-                    <span class="bubble-color color-50"></span>
-                    <span>嫩绿色：50分 (1.0秒)</span>
-                </div>
-                <div class="score-item">
-                    <span class="bubble-color color-70"></span>
-                    <span>暖橙色：70分 (0.5秒)</span>
-                </div>
-                <div class="score-item">
-                    <span class="bubble-color color-90"></span>
-                    <span>亮紫色：90分 (0.3秒)</span>
-                </div>
-                <div class="score-item">
-                    <span class="bubble-color color-100"></span>
-                    <span>正红色：100分 (0.2秒)</span>
-                </div>
-            </div>
-            <button id="startBtn" class="game-btn start-btn">开始游戏</button>
+            <button id="back-from-help-btn" class="btn">返回</button>
         </div>
-    </div>
 
-    <!-- 游戏结束界面 -->
-    <div id="endScreen" class="screen end-screen hidden">
-        <div class="screen-content">
-            <h2 class="end-title">游戏结束</h2>
-            <div class="final-stats">
-                <div class="stat-item">
-                    <span class="stat-label">最终得分：</span>
-                    <span id="finalScore" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">击破泡泡：</span>
-                    <span id="poppedBubbles" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">超时泡泡：</span>
-                    <span id="timeoutBubbles" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">错误操作：</span>
-                    <span id="errorActions" class="stat-value">0</span>
-                </div>
+        <!-- 游戏主界面 -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="timer">时间: <span id="time-left">120</span>秒</div>
+                <div class="score">分数: <span id="current-score">0</span></div>
+                <button id="pause-btn" class="btn pause-btn">暂停</button>
             </div>
-            <div class="end-buttons">
-                <button id="restartBtn" class="game-btn restart-btn">再来一局</button>
-                <button id="backToStartBtn" class="game-btn back-btn">返回开始</button>
+            <div id="game-area" class="game-area"></div>
+            <div class="keyboard-hint">
+                <div class="hint-text">提示：按下键盘上对应的字母键击破泡泡（ESC键暂停）</div>
             </div>
         </div>
-    </div>
+        
+        <!-- 暂停菜单 -->
+        <div id="pause-screen" class="screen hidden">
+            <div class="pause-menu">
+                <h2>游戏暂停</h2>
+                <button id="resume-btn" class="btn">继续游戏</button>
+                <button id="restart-from-pause-btn" class="btn">重新开始</button>
+                <button id="back-to-menu-btn" class="btn">返回主菜单</button>
+            </div>
+        </div>
 
-    <!-- 暂停界面 -->
-    <div id="pauseScreen" class="screen pause-screen hidden">
-        <div class="screen-content">
-            <h2 class="pause-title">游戏暂停</h2>
-            <div class="pause-stats">
-                <div class="stat-item">
-                    <span class="stat-label">当前分数：</span>
-                    <span id="pauseScore" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">剩余时间：</span>
-                    <span id="pauseTime" class="stat-value">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">击破泡泡：</span>
-                    <span id="pauseBubbles" class="stat-value">0</span>
-                </div>
-            </div>
-            <div class="pause-buttons">
-                <button id="resumeBtn" class="game-btn resume-btn">继续游戏</button>
-                <button id="pauseHomeBtn" class="game-btn back-btn">返回主界面</button>
-            </div>
+        <!-- 游戏结束界面 -->
+        <div id="end-screen" class="screen hidden">
+            <h2>游戏结束</h2>
+            <div class="final-score">最终得分: <span id="final-score">0</span></div>
+            <button id="restart-btn" class="btn">再来一局</button>
         </div>
     </div>
 
